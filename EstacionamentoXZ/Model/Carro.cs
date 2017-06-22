@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EstacionamentoXZ
+namespace EstacionamentoXZ.Model
 {
-    class Program
+    class Carro
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

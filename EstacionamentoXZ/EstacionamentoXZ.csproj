@@ -41,11 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="DAL\ClienteDAO.cs" />
+    <Compile Include="DAL\Context.cs" />
+    <Compile Include="DAL\Singleton.cs" />
+    <Compile Include="Model\Carro.cs" />
+    <Compile Include="Model\Cliente.cs" />
+    <Compile Include="Model\Movimentacao.cs" />
+    <Compile Include="Util\Calculos.cs" />
+    <Compile Include="View\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
