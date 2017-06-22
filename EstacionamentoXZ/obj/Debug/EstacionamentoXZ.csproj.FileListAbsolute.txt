@@ -1,0 +1,2 @@
+c:\users\aluno\documents\visual studio 2013\Projects\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.exe.config
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.exe.config
