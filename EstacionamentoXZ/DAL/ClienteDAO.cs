@@ -1,5 +1,7 @@
-﻿using System;
+﻿using EstacionamentoXZ.Model;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,67 +10,68 @@ namespace EstacionamentoXZ.DAL
 {
     class ClienteDAO
     {
-        
-        private static Context ctx = new Context();
+
+        private static Context ctx = Singleton.Instance.Context;
         /// <summary>
         /// <para>asdasd</para>
         /// <para></para>
         /// </summary>
-        /// <param name="pessoa"></param>
+        /// <param name="cliente"></param>
         /// <returns></returns>
-        public static bool AdicionarPessoa(Pessoa pessoa)
+        public static bool AdicionarCliente(Cliente cliente)
         {
             try
             {
-                ctx.Pessoas.Add(pessoa);
+                ctx.Clientes.Add(cliente);
                 ctx.SaveChanges();
                 return true;
             }
             catch (DbEntityValidationException errosDeValidacao)
-            {   //Percorre as propriedades os erros de validação 
+            {
+                //Percorrer as propriedades do modelo que está sendo salvo
                 foreach (DbEntityValidationResult resultadoDaValidacao in errosDeValidacao.EntityValidationErrors)
                 {
+                    //Percorrer os erros de validação de cada propriedade
                     foreach (DbValidationError erro in resultadoDaValidacao.ValidationErrors)
                     {
-                        ctx.Entry(pessoa).State = System.Data.Entity.EntityState.Detached;
-                        ctx.SaveChanges();
                         throw new Exception(erro.ErrorMessage);
-                    }   
+                    }
                 }
                 return false;
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
-                throw new Exception("Banco de Dados diferente do Modelo");
+                throw new Exception("Banco de dados diferente do modelo!");
             }
         }
 
-        public static List<Pessoa> RetornarPessoas()
+
+        public static List<Cliente> RetornarClientes()
         {
-            return ctx.Pessoas.ToList();
+            return ctx.Clientes.ToList();
         }
 
-        public static Pessoa BuscarPessoaPorCPF(Pessoa pessoa)
+        public static Cliente BuscarClientePorCPF(Cliente cliente)
         {
-            return ctx.Pessoas.FirstOrDefault(x => x.Cpf.Equals(pessoa.Cpf));
+            return ctx.Clientes.FirstOrDefault(x => x.Cpf.Equals(cliente.Cpf));
             //return ctx.Pessoas.SingleOrDefault(x => x.Cpf.Equals(pessoa.Cpf));
         }
 
-        public static Pessoa BuscarPessoaPorPK(Pessoa pessoa)
+        public static Cliente BuscarClientePorPK(Cliente cliente)
         {
-            return ctx.Pessoas.Find(pessoa.PessoaId);
+            return ctx.Clientes.Find(cliente.ClienteId);
         }
 
-        public static List<Pessoa> BuscarPessoasPorParteDoNome(Pessoa pessoa)
+        public static List<Cliente> BuscarPessoasPorParteDoNome(Cliente cliente)
         {
-            return ctx.Pessoas.Where(x => x.Nome.Contains(pessoa.Nome)).ToList();
+            return ctx.Clientes.Where(x => x.NomeCliente.Contains(cliente.NomeCliente)).ToList();
         }
 
-        public static bool RemoverPessoa(Pessoa pessoa)
+        public static bool RemoverPessoa(Cliente cliente)
         {
             try
             {
-                ctx.Pessoas.Remove(pessoa);
+                ctx.Clientes.Remove(cliente);
                 ctx.SaveChanges();
                 return true;
             }
@@ -79,11 +82,11 @@ namespace EstacionamentoXZ.DAL
             }
         }
 
-        public static bool AlterarPessoa(Pessoa pessoa)
+        public static bool AlterarPessoa(Cliente cliente)
         {
             try
             {
-                ctx.Entry(pessoa).State = System.Data.Entity.EntityState.Modified;
+                ctx.Entry(cliente).State = System.Data.Entity.EntityState.Modified;
                 ctx.SaveChanges();
                 return true;
             }
@@ -93,4 +96,5 @@ namespace EstacionamentoXZ.DAL
             }
         }
     }
-   
+}
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EstacionamentoXZ.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,37 +11,35 @@ namespace EstacionamentoXZ.View
     {
         static void Main(string[] args)
         {
-            Conta conta = new Conta();
+            Cliente cliente = new Cliente();
+            Carro carro = new Carro();
             string op;
             do
             {
                 Console.Clear();
                 Console.WriteLine("  -- Estacionamento XZPark  --  \n");
-                Console.WriteLine("1 - Cadastrar Conta");
-                Console.WriteLine("2 - Remover Conta");
-                Console.WriteLine("3 - Depósito");
-                Console.WriteLine("4 - Saque");
-                Console.WriteLine("5 - Transferencia");
-                Console.WriteLine("6 - Extrato Saques ");
-                Console.WriteLine("7 - Extrato Depositos ");
-                Console.WriteLine("8 - Extrato Transferencias");
-                Console.WriteLine("9 - Extrato Completo");
+                Console.WriteLine("1 - Cadastrar Cliente");
+                Console.WriteLine("2 – Cadastrar Carro para um Cliente");
+                Console.WriteLine("3 – Entrada de Carro");
+                Console.WriteLine("4 – Saída de Carro");
+                Console.WriteLine("5 – Histórico de Movimentação do Cliente");
+                Console.WriteLine("6 – Histórico de Movimentação do Dia");
                 Console.WriteLine("0 - Sair");
                 Console.WriteLine("\nEscolha una opção:");
                 op = Console.ReadLine();
                 switch (op)
                 {
                     case "1":
-                        conta = new Conta();
+                        cliente = new Cliente();
                         Console.Clear();
-                        Console.WriteLine(" -- CADASTRO DE CONTA -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
+                        Console.WriteLine(" -- CADASTRO DE CLIENTE -- ");
                         Console.WriteLine("Digite o nome do cliente:");
-                        conta.Cliente = Console.ReadLine();
-                        Console.WriteLine("Digite o saldo inicial da conta:");
-                        conta.Saldo = Convert.ToDouble(Console.ReadLine());
-                        conta.DataDeAbertura = DateTime.Now;
+                        cliente.NomeCliente = Console.ReadLine();
+                        Console.WriteLine("Digite o CPF do cliente:");
+                        cliente.Cpf = Console.ReadLine();
+                        Console.WriteLine("Digite a data de Nascimento do Cliente:");
+                        cliente.DataDeNascimento = Convert.ToDateTime(Console.ReadLine());
+                        
                         if (ContaDAO.AdicionarConta(conta))
                         {
                             Console.WriteLine("Conta adicionada com sucesso!");
