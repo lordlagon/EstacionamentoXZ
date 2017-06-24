@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +13,10 @@ namespace EstacionamentoXZ.Model
     {
         [Key]
         public int MovimentacaoId { get; set; }
-        public Conta Conta { get; set; }
+        public Cliente Cliente { get; set; }
+        public Carro Carro { get; set; }
         public string Tipo { get; set; }
-        public double Valor { get; set; }
-        public DateTime DataDaMovimentacao { get; set; }
+        public DateTime DataDeEntrada { get; set; }
+        public DateTime DataDeSaida { get; set; }
     }
 }
