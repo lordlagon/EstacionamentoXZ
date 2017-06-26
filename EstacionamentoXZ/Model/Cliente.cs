@@ -24,7 +24,7 @@ namespace EstacionamentoXZ.Model
         [MinLength(11, ErrorMessage = "O Campo deve conter o apenas 11 caracteres!")] // MaxLength maximo de caracteres, somente para strings
         public string Cpf { get; set; }
         public DateTime DataDeNascimento { get; set; }
-        public virtual ICollection<Carro> ListaDeCarros { get; set; }
+        public List<Carro> ListaDeCarros { get; set; }
     }
 }
 

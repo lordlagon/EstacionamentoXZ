@@ -18,8 +18,9 @@ namespace EstacionamentoXZ.Model
         public string ModeloCarro { get; set; }
         [MaxLength(8, ErrorMessage = "A Placa do Carro deve conter o máximo de 8 caracteres!")] 
         public string PlacaCarro { get; set; }
+        //public string status { get; set; }
         public Cliente Cliente { get; set; }
-        //List<Carro>
+        
     }
 
 }

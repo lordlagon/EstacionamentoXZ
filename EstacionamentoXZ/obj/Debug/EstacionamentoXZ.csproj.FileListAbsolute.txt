@@ -1,3 +1,14 @@
 c:\users\aluno\documents\visual studio 2013\Projects\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.exe.config
 C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.exe.config
 C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.exe.config
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.csprojResolveAssemblyReference.cache
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.exe
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EstacionamentoXZ.pdb
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EntityFramework.dll
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EntityFramework.xml
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.exe
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.pdb
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.Migrations.CreateDB.resources
+C:\Users\Aluno\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.csproj.GenerateResource.Cache

@@ -15,7 +15,7 @@ namespace EstacionamentoXZ.Model
         public int MovimentacaoId { get; set; }
         public Cliente Cliente { get; set; }
         public Carro Carro { get; set; }
-        public string Tipo { get; set; }
+        public string Status { get; set; }
         public DateTime DataDeEntrada { get; set; }
         public DateTime DataDeSaida { get; set; }
     }

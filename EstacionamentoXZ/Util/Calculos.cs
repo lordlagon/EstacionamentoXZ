@@ -8,7 +8,7 @@ namespace EstacionamentoXZ.Util
 {
     class Calculos
     {
-        public static void Depositar(Conta conta, double valor)
+       /* public static void Depositar(Conta conta, double valor)
         {
             conta.Saldo += valor;
             Movimentacao movimentacao = new Movimentacao();
@@ -62,6 +62,6 @@ namespace EstacionamentoXZ.Util
             MovimentacaoDAO.AdicionarMovimentacao(movimentacao);
         }
         
+*/    }
     }
-    }
-}
+

@@ -1,4 +1,5 @@
-﻿using EstacionamentoXZ.Model;
+﻿using EstacionamentoXZ.DAL;
+using EstacionamentoXZ.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace EstacionamentoXZ.View
                         Console.WriteLine("Digite a data de Nascimento do Cliente:");
                         cliente.DataDeNascimento = Convert.ToDateTime(Console.ReadLine());
                         
-                        if (ContaDAO.AdicionarConta(conta))
+                        if (ClienteDAO.AdicionarCliente(cliente))
                         {
                             Console.WriteLine("Conta adicionada com sucesso!");
                         }
@@ -50,7 +51,7 @@ namespace EstacionamentoXZ.View
                         }
 
                         break;
-                    case "2":
+                    /*case "2":
                         conta = new Conta();
                         Console.Clear();
                         Console.WriteLine(" -- REMOVER CONTA -- ");
@@ -290,7 +291,7 @@ namespace EstacionamentoXZ.View
                             Console.WriteLine("Conta não encontrada!");
                         }
                         break;
-
+            */
 
 
                     case "0":
