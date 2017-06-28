@@ -50,12 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\CarroDAO.cs" />
     <Compile Include="DAL\ClienteDAO.cs" />
     <Compile Include="DAL\Context.cs" />
     <Compile Include="DAL\Singleton.cs" />
-    <Compile Include="Migrations\201706280139414_createdb.cs" />
-    <Compile Include="Migrations\201706280139414_createdb.Designer.cs">
-      <DependentUpon>201706280139414_createdb.cs</DependentUpon>
+    <Compile Include="Migrations\201706272340248_CreateDB.cs" />
+    <Compile Include="Migrations\201706272340248_CreateDB.Designer.cs">
+      <DependentUpon>201706272340248_CreateDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Carro.cs" />
@@ -73,8 +74,8 @@
     <Folder Include="Controller\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706280139414_createdb.resx">
-      <DependentUpon>201706280139414_createdb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706272340248_CreateDB.resx">
+      <DependentUpon>201706272340248_CreateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

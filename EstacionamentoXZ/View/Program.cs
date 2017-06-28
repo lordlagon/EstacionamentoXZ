@@ -51,42 +51,32 @@ namespace EstacionamentoXZ.View
                         }
 
                         break;
-                    /*case "2":
-                        conta = new Conta();
+                    case "2":
+                        carro = new Carro();
+                        cliente = new Cliente();
                         Console.Clear();
-                        Console.WriteLine(" -- REMOVER CONTA -- ");
-                        Console.WriteLine("Digite o Numero da Conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
+                        Console.WriteLine(" -- CADASTRAR CARRO -- ");
+                        Console.WriteLine("Digite o CPF do Cliente:");
+                        cliente.Cpf = Console.ReadLine();
+                        cliente = ClienteDAO.BuscarClientePorCPF(cliente);
+                        if (cliente != null)
                         {
-                            Console.WriteLine("Numero da Conta: " + conta.Numero);
-                            Console.WriteLine("Cliente: " + conta.Cliente);
-                            Console.WriteLine("\nDeseja remover esta Conta?");
-                            if (Console.ReadLine().ToLower().Equals("s"))
-                            {
-                                if (ContaDAO.RemoverConta(conta))
-                                {
-                                    Console.WriteLine("Conta removida com sucesso!");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Erro ao remover esta Conta!");
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Conta não removida!");
-                            }
+                            carro.Cliente(cliente);
+                            Console.WriteLine("Digite a Placa do Carro: ");
+                            carro.PlacaCarro = Console.ReadLine();
+                            Console.WriteLine("Digite o Modelo do Carro: ");
+                            carro.ModeloCarro = Console.ReadLine();
+                            
+                            CarroDAO.AdicionarCarro(carro);
                         }
                         else
                         {
-                            Console.WriteLine("Conta não encontrada!");
+                            Console.WriteLine("Cliente não encontrado!");
                         }
 
                         break;
 
-                    case "3":
+                    /*case "3":
                         conta = new Conta();
                         Console.Clear();
                         Console.WriteLine(" -- DEPÓSITO -- ");

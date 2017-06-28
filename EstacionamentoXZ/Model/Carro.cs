@@ -20,7 +20,12 @@ namespace EstacionamentoXZ.Model
         public string PlacaCarro { get; set; }
         //public string status { get; set; }
         public Cliente Cliente { get; set; }
-        
+
+
+        internal void Cliente(Model.Cliente cliente)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
