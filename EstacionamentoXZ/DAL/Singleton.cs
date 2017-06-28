@@ -32,9 +32,4 @@ namespace EstacionamentoXZ.DAL
             }
         }
     }
-
-
-
 }
-
-   

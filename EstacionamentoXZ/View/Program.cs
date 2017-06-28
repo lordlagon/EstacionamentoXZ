@@ -1,5 +1,6 @@
 ﻿using EstacionamentoXZ.DAL;
 using EstacionamentoXZ.Model;
+using EstacionamentoXZ.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace EstacionamentoXZ.View
     {
         static void Main(string[] args)
         {
+            string op;
             Cliente cliente = new Cliente();
             Carro carro = new Carro();
-            string op;
+            Estadia estadia = new Estadia();
+            double precoDaEstadia, precoTotal;
             do
             {
                 Console.Clear();
@@ -35,21 +38,26 @@ namespace EstacionamentoXZ.View
                         Console.Clear();
                         Console.WriteLine(" -- CADASTRO DE CLIENTE -- ");
                         Console.WriteLine("Digite o nome do cliente:");
-                        cliente.NomeCliente = Console.ReadLine();
+                        cliente.Nome = Console.ReadLine();
                         Console.WriteLine("Digite o CPF do cliente:");
                         cliente.Cpf = Console.ReadLine();
                         Console.WriteLine("Digite a data de Nascimento do Cliente:");
                         cliente.DataDeNascimento = Convert.ToDateTime(Console.ReadLine());
-                        
-                        if (ClienteDAO.AdicionarCliente(cliente))
+                        try
                         {
-                            Console.WriteLine("Conta adicionada com sucesso!");
+                            if (ClienteDAO.AdicionarCliente(cliente))
+                            {
+                                Console.WriteLine("Conta adicionada com sucesso!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Conta já existente!");
+                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            Console.WriteLine("Conta já existente!");
+                            Console.WriteLine(e.Message);
                         }
-
                         break;
                     case "2":
                         carro = new Carro();
@@ -59,242 +67,162 @@ namespace EstacionamentoXZ.View
                         Console.WriteLine("Digite o CPF do Cliente:");
                         cliente.Cpf = Console.ReadLine();
                         cliente = ClienteDAO.BuscarClientePorCPF(cliente);
+                        try
+                        {
+
+                            if (cliente != null)
+                            {
+                                carro.Cliente = cliente;
+                                Console.WriteLine("Digite a Placa do Carro: ");
+                                carro.Placa = Console.ReadLine();
+                                Console.WriteLine("Digite o Modelo do Carro: ");
+                                carro.Modelo = Console.ReadLine();
+                                CarroDAO.AdicionarCarro(carro);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cliente não encontrado!");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+
+                        break;
+                    case "3":
+                        estadia = new Estadia();
+                        carro = new Carro();
+                        Console.Clear();
+                        Console.WriteLine(" -- ENTRADA DO CARRO -- \n");
+                        Console.WriteLine("Digite a placa do carro:");
+                        carro.Placa = Console.ReadLine();
+                        carro = CarroDAO.BuscarCarroPorPlaca(carro);
+                        if (carro != null && carro.EstaEstacionado == false)
+                        {
+                            estadia.Carro = carro;
+                            estadia.Entrada = DateTime.Now;
+                            //Lembre-se que o SQL Server não trabalha com datas menores que 1753
+                            //Por isso defini uma data padrão
+                            estadia.Saida = Convert.ToDateTime("01/01/1900");
+                            //Modificando o status do carro
+                            carro.EstaEstacionado = true;
+                            try
+                            {
+
+                                if (EstadiaDAO.AdicionarEstadia(estadia))
+                                {
+                                    Console.WriteLine("Entrada efetuada com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Erro ao registrar entrada do carro!");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Carro não cadastrado ou já se encontra no estacionamento!");
+                        }
+                        break;
+                    case "4":
+                        estadia = new Estadia();
+                        carro = new Carro();
+                        Console.Clear();
+                        Console.WriteLine(" -- SAÍDA DO CARRO -- \n");
+                        Console.WriteLine("Digite a placa do carro:");
+                        carro.Placa = Console.ReadLine();
+                        estadia = EstadiaDAO.BuscarEstadiaDeCarroEstacionado(carro);
+                        if (estadia != null)
+                        {
+                            estadia.Saida = DateTime.Now;
+                            //Modificando o status do carro
+                            estadia.Carro.EstaEstacionado = false;
+                            try
+                            {
+                                if (EstadiaDAO.AlterarEstadia(estadia))
+                                {
+                                    precoDaEstadia = Calculos.CalcularEstadia(estadia);
+                                    Console.WriteLine("Preço total: " + precoDaEstadia.ToString("C2"));
+                                    Console.WriteLine("Saída efetuada com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Erro ao registrar a saída do carro!");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Carro não se encontra no estacionamento!");
+                        }
+                        break;
+                    case "5":
+                        cliente = new Cliente();
+                        precoTotal = 0;
+                        Console.Clear();
+                        Console.WriteLine(" -- LISTAR ESTADIAS POR CLIENTE -- \n");
+                        Console.WriteLine("Digite CPF do cliente:");
+                        cliente.Cpf = Console.ReadLine();
+                        cliente = ClienteDAO.BuscarClientePorCPF(cliente);
                         if (cliente != null)
                         {
-                            carro.Cliente(cliente);
-                            Console.WriteLine("Digite a Placa do Carro: ");
-                            carro.PlacaCarro = Console.ReadLine();
-                            Console.WriteLine("Digite o Modelo do Carro: ");
-                            carro.ModeloCarro = Console.ReadLine();
-                            
-                            CarroDAO.AdicionarCarro(carro);
+                            Console.WriteLine("\nNome: " + cliente.Nome + "\n");
+                            foreach (Estadia estadiaCadastrada
+                                in EstadiaDAO.BuscarEstadiasPorCliente(cliente))
+                            {
+                                Console.WriteLine("\tCarro: " + estadiaCadastrada.Carro.Placa);
+                                Console.WriteLine("\tModelo: " + estadiaCadastrada.Carro.Modelo);
+                                Console.WriteLine("\tEntrada: " + estadiaCadastrada.Entrada);
+                                Console.WriteLine("\tSaída: " + estadiaCadastrada.Saida);
+                                precoDaEstadia = Calculos.CalcularEstadia(estadiaCadastrada);
+                                Console.WriteLine("\tPreço total: " + precoDaEstadia.ToString("C2") + "\n");
+                                precoTotal += precoDaEstadia;
+                            }
+                            Console.WriteLine("Total: " + precoTotal.ToString("C2"));
                         }
                         else
                         {
                             Console.WriteLine("Cliente não encontrado!");
                         }
-
                         break;
-
-                    /*case "3":
-                        conta = new Conta();
-                        Console.Clear();
-                        Console.WriteLine(" -- DEPÓSITO -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
-                        {
-                            Console.WriteLine("Digite o valor do depósito:");
-                            double deposito = Convert.ToDouble(Console.ReadLine());
-                            MovimentacoesBancarias.Depositar(conta, deposito);
-                            Console.WriteLine("Depósito efetuado com sucesso!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
-                        break;
-                    case "4":
-                        conta = new Conta();
-                        Console.Clear();
-                        Console.WriteLine(" -- SAQUE -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
-                        {
-                            Console.WriteLine("Digite o valor do saque:");
-                            double saque = Convert.ToDouble(Console.ReadLine());
-                            if (MovimentacoesBancarias.Sacar(conta, saque))
-                            {
-                                Console.WriteLine("Saque efetuado com sucesso!");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Valor insuficiente!");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
-                        break;
-
-                    case "5":
-                        Conta contaSaque = new Conta();
-                        Console.Clear();
-                        Console.WriteLine(" -- TRANSFERENCIA -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        contaSaque.Numero = Console.ReadLine();
-                        contaSaque = ContaDAO.BuscarContaPorNumero(contaSaque);
-                        if (contaSaque != null)
-                        {
-                            Conta contaDeposito = new Conta();
-                            Console.WriteLine("Digite o número da conta para a transferencia:");
-                            contaDeposito.Numero = Console.ReadLine();
-                            contaDeposito = ContaDAO.BuscarContaPorNumero(contaDeposito);
-                            if (contaDeposito != null)
-                            {
-                                if (contaDeposito.Numero != contaSaque.Numero)
-                                {
-                                    Console.WriteLine("Digite o valor da transferencia:");
-                                    double transferencia = Convert.ToDouble(Console.ReadLine());
-                                    if (MovimentacoesBancarias.TransferenciaSacar(contaSaque, transferencia))
-                                    {
-                                        MovimentacoesBancarias.TransferenciaDepositar(contaDeposito, transferencia);
-                                        Console.WriteLine("Transferencia efetuada com sucesso!");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Valor insuficiente!");
-                                    }
-                                }
-                                else { Console.WriteLine("Não é possível fazer transferencia para a mesma conta"); }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Conta não encontrada!");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
-
-                        break;
-
                     case "6":
-                        conta = new Conta();
+                        precoTotal = 0;
                         Console.Clear();
-                        Console.WriteLine(" -- Extrato -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
+                        Console.WriteLine(" -- LISTAR ESTADIAS POR DATA -- \n");
+                        Console.WriteLine("\nDigite uma data: " + cliente.Nome);
+                        DateTime data = Convert.ToDateTime(Console.ReadLine());
+                        foreach (Estadia estadiaCadastrada in EstadiaDAO.BuscarEstadiasPorData(data))
                         {
-                            Console.WriteLine("Número: " + conta.Numero);
-                            Console.WriteLine("Cliente: " + conta.Cliente);
-                            Console.WriteLine("Saldo: " + conta.Saldo.ToString("C2"));
-                            Console.WriteLine("Data de Abertura: " + conta.DataDeAbertura);
-                            List<Movimentacao> movimentacoes = MovimentacaoDAO.BuscarMovimentacoesPorConta(conta);
-                            Console.WriteLine(" -- MOVIMENTAÇÕES SAQUES EFETUADOS -- ");
-                            foreach (Movimentacao movimentacaoCadastrada in movimentacoes)
-                            {
-                                if (movimentacaoCadastrada.Tipo.Equals("Saque"))
-                                {
-                                    Console.WriteLine("\nTipo: " + movimentacaoCadastrada.Tipo);
-                                    Console.WriteLine("Valor: " + movimentacaoCadastrada.Valor.ToString("C2"));
-                                    Console.WriteLine("Data: " + movimentacaoCadastrada.DataDaMovimentacao);
-                                }
-                            }
+                            Console.WriteLine("\tCliente: " + estadiaCadastrada.Carro.Cliente.Nome);
+                            Console.WriteLine("\tCarro: " + estadiaCadastrada.Carro.Placa);
+                            Console.WriteLine("\tModelo: " + estadiaCadastrada.Carro.Modelo);
+                            Console.WriteLine("\tEntrada: " + estadiaCadastrada.Entrada);
+                            Console.WriteLine("\tSaída: " + estadiaCadastrada.Saida);
+                            precoDaEstadia = Calculos.CalcularEstadia(estadiaCadastrada);
+                            Console.WriteLine("\tPreço total: " + precoDaEstadia.ToString("C2") + "\n");
+                            precoTotal += precoDaEstadia;
                         }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
+                        Console.WriteLine("Total: " + precoTotal.ToString("C2"));
                         break;
-                    case "7":
-                        conta = new Conta();
-                        Console.Clear();
-                        Console.WriteLine(" -- Extrato -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
-                        {
-                            Console.WriteLine("Número: " + conta.Numero);
-                            Console.WriteLine("Cliente: " + conta.Cliente);
-                            Console.WriteLine("Saldo: " + conta.Saldo.ToString("C2"));
-                            Console.WriteLine("Data de Abertura: " + conta.DataDeAbertura);
-                            List<Movimentacao> movimentacoes = MovimentacaoDAO.BuscarMovimentacoesPorConta(conta);
-                            Console.WriteLine(" -- MOVIMENTAÇÕES DEPÓSITOS EFETUADOS -- ");
-                            foreach (Movimentacao movimentacaoCadastrada in movimentacoes)
-                            {
-                                if (movimentacaoCadastrada.Tipo.Equals("Depósito"))
-                                {
-                                    Console.WriteLine("\nTipo: " + movimentacaoCadastrada.Tipo);
-                                    Console.WriteLine("Valor: " + movimentacaoCadastrada.Valor.ToString("C2"));
-                                    Console.WriteLine("Data: " + movimentacaoCadastrada.DataDaMovimentacao);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
-                        break;
-                    case "8":
-                        conta = new Conta();
-                        Console.Clear();
-                        Console.WriteLine(" -- Extrato -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
-                        {
-                            Console.WriteLine("Número: " + conta.Numero);
-                            Console.WriteLine("Cliente: " + conta.Cliente);
-                            Console.WriteLine("Saldo: " + conta.Saldo.ToString("C2"));
-                            Console.WriteLine("Data de Abertura: " + conta.DataDeAbertura);
-                            List<Movimentacao> movimentacoes = MovimentacaoDAO.BuscarMovimentacoesPorConta(conta);
-                            Console.WriteLine(" -- MOVIMENTAÇÕES TRANSFERENCIA EFETUADAS -- ");
-                            foreach (Movimentacao movimentacaoCadastrada in movimentacoes)
-                            {
-                                if (movimentacaoCadastrada.Tipo.Equals("Transferencia Retirada") || movimentacaoCadastrada.Tipo.Equals("Transferencia Deposito"))
-                                {
-                                    Console.WriteLine("\nTipo: " + movimentacaoCadastrada.Tipo);
-                                    Console.WriteLine("Valor: " + movimentacaoCadastrada.Valor.ToString("C2"));
-                                    Console.WriteLine("Data: " + movimentacaoCadastrada.DataDaMovimentacao);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
-                        break;
-                    case "9":
-                        conta = new Conta();
-                        Console.Clear();
-                        Console.WriteLine(" -- Extrato -- ");
-                        Console.WriteLine("Digite o número da conta:");
-                        conta.Numero = Console.ReadLine();
-                        conta = ContaDAO.BuscarContaPorNumero(conta);
-                        if (conta != null)
-                        {
-                            Console.WriteLine("Número: " + conta.Numero);
-                            Console.WriteLine("Cliente: " + conta.Cliente);
-                            Console.WriteLine("Saldo: " + conta.Saldo.ToString("C2"));
-                            Console.WriteLine("Data de Abertura: " + conta.DataDeAbertura);
-                            List<Movimentacao> movimentacoes = MovimentacaoDAO.BuscarMovimentacoesPorConta(conta);
-                            Console.WriteLine(" -- TODAS AS MOVIMENTAÇÕES -- ");
-                            foreach (Movimentacao movimentacaoCadastrada in movimentacoes)
-                            {
-                                Console.WriteLine("\nTipo: " + movimentacaoCadastrada.Tipo);
-                                Console.WriteLine("Valor: " + movimentacaoCadastrada.Valor.ToString("C2"));
-                                Console.WriteLine("Data: " + movimentacaoCadastrada.DataDaMovimentacao);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Conta não encontrada!");
-                        }
-                        break;
-            */
-
-
                     case "0":
-                        Console.WriteLine("Saindo...");
+                        Console.WriteLine("\nSaindo...");
                         break;
                     default:
-                        Console.WriteLine("Opção inválida!");
+                        Console.WriteLine("\nOpção inválida!");
                         break;
                 }
                 Console.WriteLine("\nPressione uma tecla para continuar...");
                 Console.ReadKey();
             } while (!op.Equals("0"));
-
         }
     }
 }

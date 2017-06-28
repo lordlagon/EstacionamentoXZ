@@ -11,21 +11,23 @@ namespace EstacionamentoXZ.Model
     [Table("Carros")]
     class Carro
     {
-     
-        [Key] 
+
+        [Key]
         public int CarroId { get; set; }
-        [Required(ErrorMessage = "O campo nome deve ser preenchido!")] 
-        public string ModeloCarro { get; set; }
-        [MaxLength(8, ErrorMessage = "A Placa do Carro deve conter o máximo de 8 caracteres!")] 
-        public string PlacaCarro { get; set; }
-        //public string status { get; set; }
+        [Required(ErrorMessage = "O campo MODELO obrigatório!")]
+        public string Modelo { get; set; }
+        [Required(ErrorMessage = "O campo PLACA obrigatório!")]
+        public string Placa { get; set; }
         public Cliente Cliente { get; set; }
+        public bool EstaEstacionado { get; set; }
 
-
-        internal void Cliente(Model.Cliente cliente)
+        public Carro()
         {
-            throw new NotImplementedException();
+            Cliente = new Cliente();
         }
+
+
+
     }
 
 }

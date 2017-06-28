@@ -19,12 +19,17 @@ namespace EstacionamentoXZ.Model
         public int ClienteId { get; set; }
         [Required(ErrorMessage = "O campo nome deve ser preenchido!")] //Campo requerido
         [MaxLength(70, ErrorMessage = "O Campo deve conter o máximo de 70 caracteres!")] // MaxLength maximo de caracteres, somente para strings
-        public string NomeCliente { get; set; }
-        [MaxLength(11, ErrorMessage = "O Campo deve conter o apenas 11 caracteres!")] // MaxLength maximo de caracteres, somente para strings
-        [MinLength(11, ErrorMessage = "O Campo deve conter o apenas 11 caracteres!")] // MaxLength maximo de caracteres, somente para strings
+        public string Nome { get; set; }
+        [MaxLength(11, ErrorMessage = "O Campo deve conter o 11 caracteres!")] // MaxLength maximo de caracteres, somente para strings
+        [MinLength(11, ErrorMessage = "O Campo deve conter o 11 caracteres!")] // MaxLength maximo de caracteres, somente para strings
         public string Cpf { get; set; }
         public DateTime DataDeNascimento { get; set; }
-        public List<Carro> ListaDeCarros { get; set; }
+        public List<Carro> Carros { get; set; }
+
+        public Cliente()
+        {
+            Carros = new List<Carro>();
+        }
     }
 }
 

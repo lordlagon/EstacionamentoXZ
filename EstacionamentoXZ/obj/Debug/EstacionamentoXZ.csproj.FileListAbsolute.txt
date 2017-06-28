@@ -21,3 +21,5 @@ C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EntityFr
 C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.exe
 C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.pdb
+C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.Migrations.Initial.resources
+C:\Users\andre\Source\Repos\EstacionamentoXZ\EstacionamentoXZ\obj\Debug\EstacionamentoXZ.csproj.GenerateResource.Cache

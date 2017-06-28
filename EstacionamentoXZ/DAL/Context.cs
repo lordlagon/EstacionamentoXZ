@@ -18,7 +18,7 @@ namespace EstacionamentoXZ.DAL
         //Mapeando a classe pessoa para virar uma tabela no banco
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Carro> Carros { get; set; }
-        public DbSet<Movimentacao> Movimentacoes { get; set; }
+        public DbSet<Estadia> Estadias { get; set; }
     }
 }
 
